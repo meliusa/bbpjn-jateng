@@ -2,6 +2,22 @@
 @section('content')
 <h4 class="py-3 mb-4"><span class="text-muted fw-light">Members /</span> Member List</h4>
 
+<!-- Notifikasi Sukses -->
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+<!-- Notifikasi Gagal -->
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Gagal!</strong> {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
 <!-- DataTable with Buttons -->
 <div class="card">
     <div class="pt-0 card-datatable table-responsive">
@@ -135,3 +151,4 @@
     });
 </script>
 @endsection
+
