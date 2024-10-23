@@ -73,14 +73,9 @@
                         render: function (data, type, full, meta) {
                             return (
                                 '<div class="d-inline-block">' +
-                                '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>' +
-                                '<ul class="m-0 dropdown-menu dropdown-menu-end">' +
-                                '<li><a href="javascript:;" class="dropdown-item">Details</a></li>' +
-                                '<div class="dropdown-divider"></div>' +
-                                '<li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id="' + full.id + '">Delete</a></li>' +
-                                "</ul>" +
-                                "</div>" +
-                                '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-pencil-outline"></i></a>'
+                                '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-pencil-outline"></i></a>' +
+                                '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon text-danger delete-record" data-id="' + full.id + '"><i class="mdi mdi-delete"></i></a>' +
+                                '</div>'
                             );
                         },
                     },
