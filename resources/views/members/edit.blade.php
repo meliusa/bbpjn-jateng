@@ -1,6 +1,13 @@
 @extends('layouts.app')
 @section('content')
-<h4 class="py-3 mb-4"><span class="text-muted fw-light">Members / Edit Data / </span> Form</h4>
+<div class="mb-4 d-flex justify-content-between align-items-center">
+    <h4 class="py-3">
+        <span class="text-muted fw-light">Members / Edit Data / </span> Form
+    </h4>
+    <a href="{{ route('members.index') }}" class="btn btn-secondary">
+      <i class="fas fa-arrow-left me-2"></i> Back
+  </a>
+</div>
 
 <!-- Multi Column with Form Separator -->
 <div class="mb-4 card">
