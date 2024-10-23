@@ -36,7 +36,7 @@ class LogController extends Controller
      */
     public function show(Log $log)
     {
-        //
+        return response()->json($log->load(['member', 'gate']));
     }
 
     /**
