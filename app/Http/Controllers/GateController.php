@@ -12,7 +12,7 @@ class GateController extends Controller
      */
     public function index()
     {
-        //
+        return view('gates.index');
     }
 
     /**
@@ -61,5 +61,10 @@ class GateController extends Controller
     public function destroy(Gate $gate)
     {
         //
+    }
+
+    public function getGateData()
+    {
+        return response()->json(Gate::all());
     }
 }

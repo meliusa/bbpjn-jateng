@@ -62,9 +62,8 @@ class MemberController extends Controller
         //
     }
 
-    public function getMembersData(Request $request)
+    public function getMemberData()
     {
-        $members = Member::all();
-        return response()->json($members);
+        return response()->json(Member::all());
     }
 }

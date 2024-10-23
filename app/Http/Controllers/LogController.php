@@ -12,7 +12,7 @@ class LogController extends Controller
      */
     public function index()
     {
-        //
+        return view('logs.index');
     }
 
     /**
@@ -62,4 +62,10 @@ class LogController extends Controller
     {
         //
     }
+
+    public function getLogData()
+    {
+        return response()->json(Log::with(['member', 'gate'])->get());
+    }
+    
 }
