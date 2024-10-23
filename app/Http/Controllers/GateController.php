@@ -60,7 +60,8 @@ class GateController extends Controller
      */
     public function destroy(Gate $gate)
     {
-        //
+        $gate->delete();
+        return response()->json(['success' => true]);
     }
 
     public function getGateData()
