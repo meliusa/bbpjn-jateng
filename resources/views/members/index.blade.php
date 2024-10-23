@@ -26,7 +26,9 @@
 <script>
     "use strict";
 
-    // datatable (jquery)
+    // Get the CSRF token from the meta tag
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
     $(function () {
         var dt_basic_table = $(".datatables-basic"),
             dt_basic;
@@ -36,11 +38,10 @@
                 ajax: {
                     url: '/api/members',
                     dataSrc: function (json) {
-                        console.log(json); 
-                        return json; 
+                        return json;
                     },
                     error: function (xhr, error, thrown) {
-                        console.error("Error fetching data: ", error); 
+                        console.error("Error fetching data: ", error);
                     }
                 },
                 columns: [
@@ -54,7 +55,7 @@
                 ],
                 columnDefs: [
                     {
-                        targets: 5, 
+                        targets: 5,
                         render: function (data) {
                             return new Date(data).toLocaleDateString('id-ID', {
                                 year: 'numeric',
@@ -78,7 +79,7 @@
                                 '<ul class="m-0 dropdown-menu dropdown-menu-end">' +
                                 '<li><a href="javascript:;" class="dropdown-item">Details</a></li>' +
                                 '<div class="dropdown-divider"></div>' +
-                                '<li><a href="javascript:;" class="dropdown-item text-danger delete-record">Delete</a></li>' +
+                                '<li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id="' + full.id + '">Delete</a></li>' +
                                 "</ul>" +
                                 "</div>" +
                                 '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-pencil-outline"></i></a>'
@@ -95,7 +96,7 @@
                         text: '<i class="mdi mdi-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Data</span>',
                         className: "create-new btn btn-primary",
                         action: function ( e, dt, node, config ) {
-                            window.location.href = '{{ route("members.create") }}'; 
+                            window.location.href = '{{ route("members.create") }}';
                         }
                     },
                 ],
@@ -105,12 +106,32 @@
             );
         }
 
+        // Handle delete action
+        $(document).on('click', '.delete-record', function() {
+            const memberId = $(this).data('id');
+            if (confirm("Are you sure you want to delete this member?")) {
+                $.ajax({
+                        url: '/members/' + memberId,
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': csrfToken // Include the CSRF token
+                        },
+                    success: function(result) {
+                        dt_basic.ajax.reload(); // Refresh the DataTable
+                        alert("Member deleted successfully.");
+                    },
+                    error: function(xhr) {
+                        alert("Error deleting member: " + xhr.responseText);
+                    }
+                });
+            }
+        });
+
         // Filter form control to default size
         setTimeout(() => {
             $(".dataTables_filter .form-control").removeClass("form-control-sm");
             $(".dataTables_length .form-select").removeClass("form-select-sm");
         }, 300);
     });
-
 </script>
 @endsection
