@@ -94,6 +94,9 @@
                     {
                         text: '<i class="mdi mdi-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Data</span>',
                         className: "create-new btn btn-primary",
+                        action: function ( e, dt, node, config ) {
+                            window.location.href = '{{ route("gates.create") }}'; 
+                        }
                     },
                 ],
             });

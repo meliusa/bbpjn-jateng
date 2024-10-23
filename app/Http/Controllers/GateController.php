@@ -20,7 +20,7 @@ class GateController extends Controller
      */
     public function create()
     {
-        //
+        return view('gates.create');
     }
 
     /**

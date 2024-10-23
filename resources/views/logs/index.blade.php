@@ -21,6 +21,58 @@
         </table>
     </div>
 </div>
+
+<div class="modal fade" id="logDetails" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-simple modal-edit-user">
+        <div class="p-3 modal-content p-md-5">
+            <div class="mb-4 d-flex align-items-center">
+                <div class="user-info me-4 pe-4 border-end d-flex flex-column justify-content-center" style="flex: 2;">
+                    <h5 class="pb-3 mb-3 border-bottom">Details</h5>
+                    <ul class="mb-4 list-unstyled" id="modal-details">
+                        <li class="mb-3">
+                            <span class="fw-medium text-heading me-2">Department:</span>
+                            <span id="modal-department-detail"></span>
+                        </li>
+                        <li class="mb-3">
+                            <span class="fw-medium text-heading me-2">NIP:</span>
+                            <span id="modal-nip-detail"></span>
+                        </li>
+                        <li class="mb-3">
+                            <span class="fw-medium text-heading me-2">Name:</span>
+                            <span id="modal-name-detail"></span>
+                        </li>
+                        <li class="mb-3">
+                            <span class="fw-medium text-heading me-2">Phone Number:</span>
+                            <span id="modal-phone-number-detail"></span>
+                        </li>
+                        <li class="mb-3">
+                            <span class="fw-medium text-heading me-2">Address:</span>
+                            <span id="modal-address-detail"></span>
+                        </li>
+                        <li class="mb-3">
+                            <span class="fw-medium text-heading me-2">Position:</span>
+                            <span id="modal-position-detail"></span>
+                        </li>
+                        <li class="mb-3">
+                            <span class="fw-medium text-heading me-2">Gate:</span>
+                            <span id="modal-gate-detail"></span>
+                        </li>
+                        <li class="mb-3">
+                            <span class="fw-medium text-heading me-2">Updated At:</span>
+                            <span id="modal-updated-at-detail"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-center user-avatar-section ms-auto" style="flex: 1;">
+                    <img class="mb-2 rounded img-fluid" src="../../assets/img/avatars/10.png" height="120" width="120" alt="User avatar" />
+                    <h4 id="modal-username">Name</h4>
+                    <span class="badge bg-label-danger rounded-pill">Position</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('custom-js')
@@ -91,7 +143,7 @@
                                 '<div class="d-inline-block">' +
                                 '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>' +
                                 '<ul class="m-0 dropdown-menu dropdown-menu-end">' +
-                                '<li><a href="javascript:;" class="dropdown-item">Details</a></li>' +
+                                '<li><a href="javascript:;" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#logDetails" onclick="showDetails(' + full.id + ')">Details</a></li>' +
                                 '<div class="dropdown-divider"></div>' +
                                 '<li><a href="javascript:;" class="dropdown-item text-danger delete-record">Delete</a></li>' +
                                 "</ul>" +
@@ -105,9 +157,7 @@
                 displayLength: 7,
                 lengthMenu: [7, 10, 25, 50, 75, 100],
             });
-            $("div.head-label").html(
-                '<h5 class="mb-0 card-title">Log List</h5>'
-            );
+            $("div.head-label").html('<h5 class="mb-0 card-title">Log List</h5>');
         }
 
         setTimeout(() => {
@@ -115,5 +165,22 @@
             $(".dataTables_length .form-select").removeClass("form-select-sm");
         }, 300);
     });
+
+    function showDetails(logId) {
+        // Fetch log details by ID and update the modal content
+        $.ajax({
+            url: '/api/logs/' + logId,
+            method: 'GET',
+            success: function(data) {
+                $('#modal-username').text(data.member.name);
+                $('#modal-username-detail').text(data.member.username);
+                $('#modal-email-detail').text(data.member.email);
+                // Update more fields as needed
+            },
+            error: function() {
+                console.error("Error fetching log details.");
+            }
+        });
+    }
 </script>
 @endsection
