@@ -27,7 +27,7 @@
         <div class="p-3 modal-content p-md-5">
             <div class="mb-4 d-flex align-items-center">
                 <div class="user-info me-4 pe-4 border-end d-flex flex-column justify-content-center" style="flex: 2;">
-                    <h4 class="pb-3 mb-3 border-bottom">Details</h4>
+                    <h4 class="pb-3 mb-5 border-bottom">Details</h4>
                     <ul class="mb-4 list-unstyled" id="modal-details">
                         <li class="mb-3">
                             <span class="fw-medium text-heading me-2">Department:</span>
