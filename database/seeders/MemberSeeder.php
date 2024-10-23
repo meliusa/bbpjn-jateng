@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -11,9 +10,7 @@ class MemberSeeder extends Seeder
 {
     public function run()
     {
-        $now = Carbon::now();
-
-        DB::table('members')->insert([
+        $members = [
             [
                 'department' => 'IT',
                 'nip' => '9876543210',
@@ -23,8 +20,6 @@ class MemberSeeder extends Seeder
                 'position' => 'Supervisor',
                 'barcode' => 'BC001',
                 'photo' => '/uploads/members/budi.jpg',
-                'created_at' => $now->subDays(rand(0, 30)),
-                'updated_at' => $now->subDays(rand(0, 30)),
             ],
             [
                 'department' => 'HR',
@@ -35,8 +30,6 @@ class MemberSeeder extends Seeder
                 'position' => 'Manager',
                 'barcode' => 'BC002',
                 'photo' => '/uploads/members/siti.jpg',
-                'created_at' => $now->subDays(rand(0, 30)),
-                'updated_at' => $now->subDays(rand(0, 30)),
             ],
             [
                 'department' => 'Finance',
@@ -47,8 +40,6 @@ class MemberSeeder extends Seeder
                 'position' => 'Staff',
                 'barcode' => 'BC003',
                 'photo' => '/uploads/members/ali.jpg',
-                'created_at' => $now->subDays(rand(0, 30)),
-                'updated_at' => $now->subDays(rand(0, 30)),
             ],
             [
                 'department' => 'Marketing',
@@ -59,8 +50,6 @@ class MemberSeeder extends Seeder
                 'position' => 'Executive',
                 'barcode' => 'BC004',
                 'photo' => '/uploads/members/dewi.jpg',
-                'created_at' => $now->subDays(rand(0, 30)),
-                'updated_at' => $now->subDays(rand(0, 30)),
             ],
             [
                 'department' => 'IT',
@@ -71,9 +60,26 @@ class MemberSeeder extends Seeder
                 'position' => 'Developer',
                 'barcode' => 'BC005',
                 'photo' => '/uploads/members/rudi.jpg',
-                'created_at' => $now->subDays(rand(0, 30)),
-                'updated_at' => $now->subDays(rand(0, 30)),
             ],
-        ]);
+        ];
+
+        foreach ($members as &$member) {
+            // Menghasilkan tanggal dan jam acak antara 30 hari yang lalu sampai sekarang
+            $createdAt = Carbon::now()->subDays(random_int(0, 30))
+                ->setTime(random_int(0, 23), random_int(0, 59), random_int(0, 59));
+                
+            // Menghasilkan updated_at dalam rentang 0 sampai 10 hari setelah created_at
+            $updatedAt = (clone $createdAt)->addDays(random_int(0, 10));
+
+            // Pastikan updated_at selalu lebih baru dari created_at
+            if ($updatedAt < $createdAt) {
+                $updatedAt = $createdAt->addDays(random_int(0, 10));
+            }
+
+            $member['created_at'] = $createdAt;
+            $member['updated_at'] = $updatedAt;
+        }
+
+        DB::table('members')->insert($members);
     }
 }

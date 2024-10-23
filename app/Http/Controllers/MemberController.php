@@ -10,9 +10,8 @@ class MemberController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index() {
+        return view('members.index');
     }
 
     /**
@@ -61,5 +60,11 @@ class MemberController extends Controller
     public function destroy(Member $member)
     {
         //
+    }
+
+    public function getMembersData(Request $request)
+    {
+        $members = Member::all();
+        return response()->json($members);
     }
 }

@@ -49,6 +49,8 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="../../assets/js/config.js"></script>
+    @include('layouts.partial.custom-css')
+    @yield('custom-css')
 </head>
 
 <body>
@@ -61,7 +63,9 @@
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
                     @include('layouts.partial.navbar')
-                    @yield('content')
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        @yield('content')
+                    </div>
                     @include('layouts.partial.footer')
                     <div class="content-backdrop fade"></div>
                 </div>
@@ -102,6 +106,10 @@
 
     <!-- Page JS -->
     <script src="../../assets/js/dashboards-analytics.js"></script>
+
+    @include('layouts.partial.custom-js')
+    @yield('custom-js')
+
 </body>
 
 </html>
