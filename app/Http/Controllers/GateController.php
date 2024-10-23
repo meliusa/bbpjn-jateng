@@ -28,7 +28,18 @@ class GateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate incoming request
+        $request->validate([
+            'gate_code' => 'required|string|max:255',
+            'gate_number' => 'required|string|max:255',
+            'door_number' => 'required|string|max:255',
+        ]);
+    
+        // Create a new gate
+        $gate = Gate::create($request->all());
+    
+        // Return a response
+        return response()->json($gate, 201); // 201 Created
     }
 
     /**
