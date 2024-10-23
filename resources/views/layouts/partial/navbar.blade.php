@@ -21,7 +21,7 @@
 
              <!-- Gates -->
              <li class="menu-item">
-                 <a href="javascript:void(0)" class="menu-link">
+                 <a href="{{ route('gates.index') }}" class="menu-link">
                      <i class="menu-icon tf-icons mdi mdi-transit-connection-horizontal"></i>
                      <div data-i18n="Gates">Gates</div>
                  </a>
@@ -29,7 +29,7 @@
 
              <!-- Logs -->
              <li class="menu-item">
-                 <a href="javascript:void(0)" class="menu-link">
+                 <a href="{{ route('logs.index') }}" class="menu-link">
                      <i class="menu-icon tf-icons mdi mdi-file-outline"></i>
                      <div data-i18n="Logs">Logs</div>
                  </a>
