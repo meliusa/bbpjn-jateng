@@ -20,13 +20,13 @@
                     <label for="phone_number">Phone Number</label>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="form-floating form-floating-outline">
-                    <textarea id="address" class="form-control" placeholder="Address" style="height: 100px;"></textarea>
+                    <textarea id="address" class="form-control" placeholder="Address"></textarea>
                     <label for="address">Address</label>
                 </div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
                 <div class="form-floating form-floating-outline">
                     <input type="file" id="photo" class="form-control" />
                     <label for="photo">Upload Photo</label>
