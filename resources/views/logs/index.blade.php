@@ -193,56 +193,37 @@
     });
 
     function showDetails(id) {
-    // Fetch log details using the log ID
-    $.ajax({
-        url: '/api/logs/' + id,
-        method: 'GET',
-        success: function (data) {
-            $('#modal-department-detail').text(data.member.department);
-            $('#modal-nip-detail').text(data.member.nip);
-            $('#modal-name-detail').text(data.member.name);
-            $('#modal-phone-number-detail').text(data.member.phone_number);
-            $('#modal-address-detail').text(data.member.address);
-            $('#modal-position-detail').text(data.member.position);
-            $('#modal-gate-detail').text(data.gate.gate_code);
-            
-            // Format updated_at in the same way as in the DataTable
-            $('#modal-updated-at-detail').text(new Date(data.updated_at).toLocaleDateString('id-ID', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            }));
+        // Fetch log details using the log ID
+        $.ajax({
+            url: '/api/logs/' + id,
+            method: 'GET',
+            success: function (data) {
+                $('#modal-department-detail').text(data.member.department);
+                $('#modal-nip-detail').text(data.member.nip);
+                $('#modal-name-detail').text(data.member.name);
+                $('#modal-phone-number-detail').text(data.member.phone_number);
+                $('#modal-address-detail').text(data.member.address);
+                $('#modal-position-detail').text(data.member.position);
+                $('#modal-gate-detail').text(data.gate.gate_code);
 
-            $('#modal-name').text(data.member.name);
-            $('#modal-position').text(data.member.position);
-        },
-        error: function (xhr, error, thrown) {
-            console.error("Error fetching log details: ", error);
-        }
-    });
+                // Format updated_at in the same way as in the DataTable
+                $('#modal-updated-at-detail').text(new Date(data.updated_at).toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                }));
+
+                $('#modal-name').text(data.member.name);
+                $('#modal-position').text(data.member.position);
+            },
+            error: function (xhr, error, thrown) {
+                console.error("Error fetching log details: ", error);
+            }
+        });
     }
-
-    // Delete record function
-    $(document).on('click', '.delete-record', function () {
-        var id = $(this).data('id');
-        if (confirm('Are you sure you want to delete this log?')) {
-            $.ajax({
-                url: '/api/logs/' + id,
-                method: 'DELETE',
-                success: function (response) {
-                    dt_basic.ajax.reload(); // Reload the DataTable
-                    alert('Log deleted successfully.');
-                },
-                error: function (xhr, error, thrown) {
-                    console.error("Error deleting log: ", error);
-                    alert('An error occurred while deleting the log.');
-                }
-            });
-        }
-    });
 
 </script>
 @endsection

@@ -19,7 +19,7 @@ class MemberController extends Controller
      */
     public function create()
     {
-        return view('members.index');
+        return view('members.create');
     }
 
     /**
