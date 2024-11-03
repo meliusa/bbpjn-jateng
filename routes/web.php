@@ -12,12 +12,15 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboards.index')
 // Member Routes
 Route::resource('/members', MemberController::class);
 Route::get('/api/members', [MemberController::class, 'getMemberData']);
+Route::get('/api/members/{member}', [MemberController::class, 'show']);
 
 // Gate Routes
 Route::resource('/gates', GateController::class);
 Route::get('/api/gates', [GateController::class, 'getGateData']);
+Route::get('/api/gates/{gate}', [GateController::class, 'show']); 
 
 // Log Routes
 Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
 Route::get('/api/logs', [LogController::class, 'getLogData']);
 Route::get('/api/logs/{log}', [LogController::class, 'show']);
+Route::get('/latest-log', [LogController::class, 'fetchLatestLog'])->name('log.latest');

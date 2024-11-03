@@ -55,15 +55,27 @@ class GateController extends Controller
      */
     public function edit(Gate $gate)
     {
-        //
+        return view('gates.edit', compact('gate'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Gate $gate)
     {
-        //
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'gate_code' => 'required|string|max:255',
+            'gate_number' => 'required|string|max:255',
+            'door_number' => 'required|string|max:255',
+        ]);
+    
+        // Update the gate with the validated data
+        $gate->update($validatedData);
+    
+        // Return a response
+        return response()->json(['message' => 'Gate updated successfully.']);
     }
 
     /**

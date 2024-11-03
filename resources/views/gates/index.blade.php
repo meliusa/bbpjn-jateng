@@ -73,7 +73,7 @@
                         render: function (data, type, full, meta) {
                             return (
                                 '<div class="d-inline-block">' +
-                                '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-pencil-outline"></i></a>' +
+                                '<a href="/gates/' + full.id + '/edit" class="btn btn-sm btn-text-secondary rounded-pill btn-icon"><i class="mdi mdi-pencil-outline"></i></a>' +
                                 '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon text-danger delete-record" data-id="' + full.id + '"><i class="mdi mdi-delete"></i></a>' +
                                 '</div>'
                             );

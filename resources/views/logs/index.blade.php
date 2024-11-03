@@ -62,18 +62,15 @@
                             <span id="modal-updated-at-detail"></span>
                         </li>
                     </ul>
-
                 </div>
                 <div class="text-center user-avatar-section ms-auto" style="flex: 1;">
-                    <img class="mb-2 rounded img-fluid" src="../../assets/img/avatars/10.png" height="120" width="120"
-                        alt="User avatar" />
+                    <img class="mb-2 rounded img-fluid" id="modal-photo" src="" height="240" width="240" alt="User avatar" />
                     <h4 id="modal-name">Name</h4>
                     <span class="badge bg-label-danger rounded-pill" id="modal-position">Position</span>
                 </div>
             </div>
             <div class="text-center col-12">
-                <button type="button" class="btn btn-outline-secondary btn-reset" data-bs-dismiss="modal"
-                    aria-label="Close">
+                <button type="button" class="btn btn-outline-secondary btn-reset" data-bs-dismiss="modal" aria-label="Close">
                     Close
                 </button>
             </div>
@@ -103,32 +100,18 @@
                         console.error("Error fetching data: ", error);
                     }
                 },
-                columns: [{
-                        data: "id"
-                    },
-                    {
-                        data: "member.name"
-                    },
-                    {
-                        data: "gate.gate_code"
-                    },
-                    {
-                        data: "gate.gate_number"
-                    },
-                    {
-                        data: "gate.door_number"
-                    },
-                    {
-                        data: "created_at"
-                    },
-                    {
-                        data: "updated_at"
-                    },
-                    {
-                        data: null
-                    },
+                columns: [
+                    { data: "id" },
+                    { data: "member.name" },
+                    { data: "gate.gate_code" },
+                    { data: "gate.gate_number" },
+                    { data: "gate.door_number" },
+                    { data: "created_at" },
+                    { data: "updated_at" },
+                    { data: null },
                 ],
-                columnDefs: [{
+                columnDefs: [
+                    {
                         targets: 5,
                         render: function (data) {
                             return new Date(data).toLocaleDateString('id-ID', {
@@ -213,11 +196,12 @@
                     day: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit',
-                    second: '2-digit'
+                    second: '2-digit' 
                 }));
 
                 $('#modal-name').text(data.member.name);
                 $('#modal-position').text(data.member.position);
+                $('#modal-photo').attr('src', '/storage/' + data.member.photo); 
             },
             error: function (xhr, error, thrown) {
                 console.error("Error fetching log details: ", error);

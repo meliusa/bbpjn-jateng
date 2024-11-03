@@ -67,5 +67,14 @@ class LogController extends Controller
     {
         return response()->json(Log::with(['member', 'gate'])->get());
     }
+
+    public function fetchLatestLog()
+    {
+        $latestLog = Log::with('member', 'gate')
+            ->latest('updated_at')
+            ->first();
+
+        return response()->json($latestLog);
+    }
     
 }

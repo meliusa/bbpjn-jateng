@@ -24,4 +24,9 @@ class Member extends Model
         'barcode',
     ];
 
+    public function logs()
+    {
+        return $this->hasMany(Log::class);
+    }
+
 }
