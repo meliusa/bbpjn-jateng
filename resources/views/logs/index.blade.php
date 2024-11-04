@@ -11,10 +11,7 @@
                     <th>ID</th>
                     <th>Member</th>
                     <th>Gate Code</th>
-                    <th>Gate Number</th>
-                    <th>Door Number</th>
                     <th>Created At</th>
-                    <th>Updated At</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -104,28 +101,12 @@
                     { data: "id" },
                     { data: "member.name" },
                     { data: "gate.gate_code" },
-                    { data: "gate.gate_number" },
-                    { data: "gate.door_number" },
                     { data: "created_at" },
-                    { data: "updated_at" },
                     { data: null },
                 ],
                 columnDefs: [
                     {
-                        targets: 5,
-                        render: function (data) {
-                            return new Date(data).toLocaleDateString('id-ID', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                second: '2-digit'
-                            });
-                        }
-                    },
-                    {
-                        targets: 6,
+                        targets: 3,
                         render: function (data) {
                             return new Date(data).toLocaleDateString('id-ID', {
                                 year: 'numeric',
@@ -159,7 +140,7 @@
                     },
                 ],
                 order: [
-                    [6, "desc"]
+                    [3, "desc"]
                 ],
                 dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0">><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                 displayLength: 7,
