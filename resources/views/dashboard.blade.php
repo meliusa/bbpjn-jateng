@@ -65,7 +65,7 @@
                     document.getElementById('modal-phone-number-detail').innerText = data.member?.phone_number || 'N/A';
                     document.getElementById('modal-address-detail').innerText = data.member?.address || 'N/A';
                     document.getElementById('modal-position-detail').innerText = data.member?.position || 'N/A';
-                    document.getElementById('modal-gate-detail').innerText = data.gate?.gate_number || 'N/A';
+                    document.getElementById('modal-gate-detail').innerText = data.gate?.gate_code || 'N/A';
                     document.getElementById('modal-updated-at-detail').innerText = new Date(data.updated_at).toLocaleString() || 'N/A';
 
                     // Update avatar and name outside of the list
