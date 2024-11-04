@@ -9,8 +9,9 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Member</th>
                     <th>Gate Code</th>
+                    <th>Member</th>
+                    <th>Barcode</th>
                     <th>Created At</th>
                     <th>Actions</th>
                 </tr>
@@ -99,14 +100,15 @@
                 },
                 columns: [
                     { data: "id" },
-                    { data: "member.name" },
                     { data: "gate.gate_code" },
+                    { data: "member.name" },
+                    { data: "member.barcode" },
                     { data: "created_at" },
                     { data: null },
                 ],
                 columnDefs: [
                     {
-                        targets: 3,
+                        targets: 4,
                         render: function (data) {
                             return new Date(data).toLocaleDateString('id-ID', {
                                 year: 'numeric',
@@ -140,7 +142,7 @@
                     },
                 ],
                 order: [
-                    [3, "desc"]
+                    [4, "desc"]
                 ],
                 dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0">><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                 displayLength: 7,
