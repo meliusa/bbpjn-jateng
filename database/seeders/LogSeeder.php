@@ -11,16 +11,25 @@ class LogSeeder extends Seeder
 {
     public function run()
     {
+        // Ambil semua ID dari tabel members dan gates
         $memberIds = DB::table('members')->pluck('id')->toArray();
         $gateIds = DB::table('gates')->pluck('id')->toArray();
 
-        for ($i = 0; $i < 10; $i++) {
-            DB::table('logs')->insert([
-                'member_id' => Arr::random($memberIds),
-                'gate_id' => Arr::random($gateIds),
+        // Loop untuk menambah 3000 entri log
+        $logs = [];
+        for ($i = 0; $i < 3000; $i++) {
+            $logs[] = [
+                'member_id' => Arr::random($memberIds),  // Pilih ID member secara acak
+                'gate_id' => Arr::random($gateIds),     // Pilih ID gate secara acak
                 'created_at' => now()->subDays(rand(0, 30))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
                 'updated_at' => now()->subDays(rand(0, 30))->subHours(rand(0, 23))->subMinutes(rand(0, 59)),
-            ]);
+            ];
+
+            // Setiap 500 data, lakukan insert ke database untuk menghindari masalah memori
+            if (($i + 1) % 500 == 0 || $i == 2999) {
+                DB::table('logs')->insert($logs);
+                $logs = []; // Reset array setelah insert untuk batch berikutnya
+            }
         }
     }
 }

@@ -89,14 +89,21 @@
 
         if (dt_basic_table.length) {
             dt_basic = dt_basic_table.DataTable({
+                processing: true,  
+                serverSide: true,  
                 ajax: {
-                    url: '/api/logs',
-                    dataSrc: function (json) {
-                        return json;
-                    },
-                    error: function (xhr, error, thrown) {
-                        console.error("Error fetching data: ", error);
-                    }
+                url: '/api/logs',
+                type: 'GET',
+                data: function (d) {
+                    // Append necessary parameters for pagination, sorting, and searching
+                    d.search = {
+                        value: d.search.value
+                    };
+                    return d;
+                },
+                error: function (xhr, error, thrown) {
+                    console.error("Error fetching data: ", error);
+                }
                 },
                 columns: [
                     { data: "id" },

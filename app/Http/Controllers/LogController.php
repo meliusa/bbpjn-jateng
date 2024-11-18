@@ -63,9 +63,38 @@ class LogController extends Controller
         //
     }
 
-    public function getLogData()
+    public function getLogData(Request $request)
     {
-        return response()->json(Log::with(['member', 'gate'])->get());
+        $columns = ['id', 'gate.gate_code', 'member.name', 'member.barcode', 'created_at'];
+    
+        // Build the query with necessary joins and eager loading
+        $logsQuery = Log::with(['member', 'gate'])
+            ->when($request->search['value'], function($query) use ($request) {
+                // Apply search filter if provided
+                $query->where(function($query) use ($request) {
+                    $query->whereHas('member', function($q) use ($request) {
+                        $q->where('name', 'like', '%' . $request->search['value'] . '%');
+                    })
+                    ->orWhereHas('gate', function($q) use ($request) {
+                        $q->where('gate_code', 'like', '%' . $request->search['value'] . '%');
+                    });
+                });
+            })
+            ->orderBy($columns[$request->order[0]['column']], $request->order[0]['dir']); // Handle sorting
+    
+        // Pagination
+        $totalRecords = $logsQuery->count();
+        $logs = $logsQuery->skip($request->start)
+                          ->take($request->length)
+                          ->get();
+    
+        // Return the data in the required format for DataTable
+        return response()->json([
+            'draw' => $request->draw,
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => $totalRecords,
+            'data' => $logs,
+        ]);
     }
 
     public function fetchLatestLog()
