@@ -4,18 +4,18 @@
 
 <!-- Notifikasi Sukses -->
 @if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ session('success') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 @endif
 
 <!-- Notifikasi Gagal -->
 @if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Gagal!</strong> {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Gagal!</strong> {{ session('error') }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 @endif
 
 <!-- DataTable with Buttons -->
@@ -79,13 +79,15 @@
                     </ul>
                 </div>
                 <div class="text-center user-avatar-section ms-auto" style="flex: 1;">
-                    <img class="mb-2 rounded img-fluid" id="modal-photo" src="" height="120" width="120" alt="User avatar" />
+                    <img class="mb-2 rounded img-fluid" id="modal-photo" src="" height="120" width="120"
+                        alt="User avatar" />
                     <h4 id="modal-name">Name</h4>
                     <span class="badge bg-label-danger rounded-pill" id="modal-position">Position</span>
                 </div>
             </div>
             <div class="text-center col-12">
-                <button type="button" class="btn btn-outline-secondary btn-reset" data-bs-dismiss="modal" aria-label="Close">
+                <button type="button" class="btn btn-outline-secondary btn-reset" data-bs-dismiss="modal"
+                    aria-label="Close">
                     Close
                 </button>
             </div>
@@ -106,26 +108,32 @@
 
         if (dt_basic_table.length) {
             dt_basic = dt_basic_table.DataTable({
+                processing: true,
+                serverSide: true,
                 ajax: {
                     url: '/api/members',
+                    data: function (d) {
+                        d.page = d.start / d.length + 1;
+                        d.per_page = d.length;
+                        d.search = d.search.value;
+                    },
                     dataSrc: function (json) {
-                        return json;
+                        return json.data; 
                     },
                     error: function (xhr, error, thrown) {
                         console.error("Error fetching data: ", error);
                     }
                 },
                 columns: [
-                    { data: "id" },
-                    { data: "department" },
-                    { data: "nip" },
-                    { data: "name" },
-                    { data: "position" },
-                    { data: "updated_at" },
-                    { data: null },
+                { data: "id" },
+                { data: "department" },
+                { data: "nip" },
+                { data: "name" },
+                { data: "position" },
+                { data: "updated_at" },
+                { data: null }
                 ],
-                columnDefs: [
-                    {
+                columnDefs: [{
                         targets: 5,
                         render: function (data) {
                             return new Date(data).toLocaleDateString('id-ID', {
@@ -148,36 +156,40 @@
                                 '<div class="d-inline-block">' +
                                 '<a href="javascript:;" class="btn btn-sm btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>' +
                                 '<ul class="m-0 dropdown-menu dropdown-menu-end">' +
-                                '<li><a href="javascript:;" class="dropdown-item" onclick="showDetails(' + full.id + ')" data-bs-toggle="modal" data-bs-target="#logDetails">Details</a></li>' +
+                                '<li><a href="javascript:;" class="dropdown-item" onclick="showDetails(' +
+                                full.id +
+                                ')" data-bs-toggle="modal" data-bs-target="#logDetails">Details</a></li>' +
                                 '<div class="dropdown-divider"></div>' +
-                                '<li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id="' + full.id + '">Delete</a></li>' +
+                                '<li><a href="javascript:;" class="dropdown-item text-danger delete-record" data-id="' +
+                                full.id + '">Delete</a></li>' +
                                 "</ul>" +
                                 "</div>" +
-                                '<a href="/members/' + full.id + '/edit" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-pencil-outline"></i></a>'
+                                '<a href="/members/' + full.id +
+                                '/edit" class="btn btn-sm btn-text-secondary rounded-pill btn-icon item-edit"><i class="mdi mdi-pencil-outline"></i></a>'
                             );
                         },
                     },
                 ],
-                order: [[5, "desc"]],
+                order: [
+                    [5, "desc"]
+                ],
                 dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                 displayLength: 7,
                 lengthMenu: [7, 10, 25, 50, 75, 100],
-                buttons: [
-                    {
-                        text: '<i class="mdi mdi-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Data</span>',
-                        className: "create-new btn btn-primary",
-                        action: function (e, dt, node, config) {
-                            window.location.href = '{{ route("members.create") }}';
-                        }
-                    },
-                ],
+                buttons: [{
+                    text: '<i class="mdi mdi-plus me-sm-1"></i> <span class="d-none d-sm-inline-block">Add Data</span>',
+                    className: "create-new btn btn-primary",
+                    action: function (e, dt, node, config) {
+                        window.location.href = '{{ route("members.create") }}';
+                    }
+                }, ],
             });
 
             $("div.head-label").html('<h5 class="mb-0 card-title">Member List</h5>');
         }
 
         // Handle delete action
-        $(document).on('click', '.delete-record', function() {
+        $(document).on('click', '.delete-record', function () {
             const memberId = $(this).data('id');
             if (confirm("Are you sure you want to delete this member?")) {
                 $.ajax({
@@ -186,11 +198,11 @@
                     headers: {
                         'X-CSRF-TOKEN': csrfToken // Include the CSRF token
                     },
-                    success: function(result) {
+                    success: function (result) {
                         dt_basic.ajax.reload(); // Refresh the DataTable
                         alert("Member deleted successfully.");
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         alert("Error deleting member: " + xhr.responseText);
                     }
                 });
@@ -209,7 +221,7 @@
         $.ajax({
             url: '/api/members/' + id,
             method: 'GET',
-            success: function(data) {
+            success: function (data) {
                 $('#modal-department-detail').text(data.department);
                 $('#modal-nip-detail').text(data.nip);
                 $('#modal-name-detail').text(data.name);
@@ -229,14 +241,13 @@
 
                 $('#modal-name').text(data.name);
                 $('#modal-position').text(data.position);
-                $('#modal-photo').attr('src', '/storage/' + data.photo); 
+                $('#modal-photo').attr('src', '/storage/' + data.photo);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.error("Error fetching member details: ", xhr);
             }
         });
     }
+
 </script>
 @endsection
-
-

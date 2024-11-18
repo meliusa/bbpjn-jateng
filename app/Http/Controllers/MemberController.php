@@ -131,8 +131,28 @@ class MemberController extends Controller
     /**
      * Get all members data for DataTable.
      */
-    public function getMemberData()
+    public function getMemberData(Request $request)
     {
-        return response()->json(Member::all());
+        $query = Member::query();
+
+        // Pencarian
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('nip', 'like', '%' . $search . '%')
+                ->orWhere('department', 'like', '%' . $search . '%')
+                ->orWhere('position', 'like', '%' . $search . '%');
+        }
+
+        // Paging
+        $perPage = $request->input('per_page', 10); // Default ke 10 data per halaman
+        $members = $query->paginate($perPage);
+
+        // Return data dalam format yang digunakan oleh DataTables
+        return response()->json([
+            'data' => $members->items(),
+            'recordsTotal' => $members->total(),
+            'recordsFiltered' => $members->total(),
+        ]);
     }
 }

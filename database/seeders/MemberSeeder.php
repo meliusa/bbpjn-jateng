@@ -4,83 +4,60 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 use Carbon\Carbon;
 
 class MemberSeeder extends Seeder
 {
     public function run()
     {
-        $dummyPhotoPath = 'photos/dummy-photo.jpg'; // Updated path to the dummy photo
+        $faker = Faker::create();
+        $dummyPhotoPath = 'photos/dummy-photo.jpg'; // Path untuk foto dummy
 
-        $members = [
-            [
-                'department' => 'IT',
-                'nip' => '9876543210',
-                'name' => 'Budi Setiawan',
-                'phone_number' => '081298765432',
-                'address' => 'Jl. Mawar No. 123',
-                'position' => 'Supervisor',
-                'barcode' => 'BC001',
-                'photo' => $dummyPhotoPath,
-            ],
-            [
-                'department' => 'HR',
-                'nip' => '1234567890',
-                'name' => 'Siti Aminah',
-                'phone_number' => '081234567890',
-                'address' => 'Jl. Melati No. 45',
-                'position' => 'Manager',
-                'barcode' => 'BC002',
-                'photo' => $dummyPhotoPath,
-            ],
-            [
-                'department' => 'Finance',
-                'nip' => '1112223334',
-                'name' => 'Ali Akbar',
-                'phone_number' => '081112223344',
-                'address' => 'Jl. Cempaka No. 67',
-                'position' => 'Staff',
-                'barcode' => 'BC003',
-                'photo' => $dummyPhotoPath,
-            ],
-            [
-                'department' => 'Marketing',
-                'nip' => '4445556667',
-                'name' => 'Dewi Lestari',
-                'phone_number' => '081234567891',
-                'address' => 'Jl. Kenanga No. 89',
-                'position' => 'Executive',
-                'barcode' => 'BC004',
-                'photo' => $dummyPhotoPath,
-            ],
-            [
-                'department' => 'IT',
-                'nip' => '8889990001',
-                'name' => 'Rudi Hartono',
-                'phone_number' => '081298765433',
-                'address' => 'Jl. Bunga No. 12',
-                'position' => 'Developer',
-                'barcode' => 'BC005',
-                'photo' => $dummyPhotoPath,
-            ],
-        ];
+        $departments = ['IT', 'HR', 'Finance', 'Marketing'];
+        $positions = ['Supervisor', 'Manager', 'Staff', 'Executive', 'Developer'];
 
-        foreach ($members as &$member) {
-            // Generate random created_at and updated_at timestamps
+        $members = [];
+
+        // Loop untuk menghasilkan 3000 data dummy
+        for ($i = 0; $i < 3000; $i++) {
+            $department = $departments[array_rand($departments)];
+            $position = $positions[array_rand($positions)];
+
             $createdAt = Carbon::now()->subDays(random_int(0, 30))
                 ->setTime(random_int(0, 23), random_int(0, 59), random_int(0, 59));
-                
+
             $updatedAt = (clone $createdAt)->addDays(random_int(0, 10));
 
-            // Ensure updated_at is always later than created_at
+            // Pastikan updated_at lebih besar dari created_at
             if ($updatedAt < $createdAt) {
                 $updatedAt = $createdAt->addDays(random_int(0, 10));
             }
 
-            $member['created_at'] = $createdAt;
-            $member['updated_at'] = $updatedAt;
+            // Menambahkan data member
+            $members[] = [
+                'department' => $department,
+                'nip' => $faker->unique()->numerify('############'), // NIP unik
+                'name' => $faker->name, // Nama acak
+                'phone_number' => $faker->numerify('08##########'), // Format nomor telepon lebih pendek (12 digit)
+                'address' => $faker->address, // Alamat acak
+                'position' => $position,
+                'barcode' => 'BC' . str_pad($i + 1, 3, '0', STR_PAD_LEFT), // Barcode unik
+                'photo' => $dummyPhotoPath,
+                'created_at' => $createdAt,
+                'updated_at' => $updatedAt,
+            ];
+
+            // Batch insert setiap 500 data untuk efisiensi
+            if (count($members) >= 500) {
+                DB::table('members')->insert($members);
+                $members = []; // Kosongkan array setelah insert
+            }
         }
 
-        DB::table('members')->insert($members);
+        // Insert sisa data jika ada yang tersisa
+        if (count($members) > 0) {
+            DB::table('members')->insert($members);
+        }
     }
 }
